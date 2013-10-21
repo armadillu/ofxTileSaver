@@ -22,6 +22,7 @@ public:
 	void windowResized(int w, int h);
 
 	ofxTileSaver saver;
+	ofEasyCam cam;
 
 	int r;
 

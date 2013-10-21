@@ -32,7 +32,7 @@ public:
 
 	ofxTileSaverImage(){};
 
-	void init(int _rows, int _cols, int _colWidth, int _rowHeight){
+	bool init(int _rows, int _cols, int _colWidth, int _rowHeight){
 
 		rows = _rows;
 		columns = _cols;
@@ -43,10 +43,17 @@ public:
 		width = colWidth * rows;
 		height = rowHeight * columns;
 
+		cout << "ofxTileSaverImage alloc: " << width << " x " << height << endl;
+		try{
 		bigImagePixels =  new unsigned char[width*height*3];
+		}catch(...){
+			cout << "ofxTileSaverImage alloc: Image too big! malloc err!" << endl;
+			return false;
+		}
 		allocate(width, height, OF_IMAGE_COLOR);
 
 		bUseTexture = false;
+		return true;
 	};
 
 

@@ -7,7 +7,7 @@ void testApp::setup(){
 	//numSteps (the outputImage will be n-Times bigger than the windowsize), border(most times zero), save as one big image?
 	//-> depends on your RAM, if you want to go bigger than 12k*12k you should propably set this to false and stich the tiles
 	// offline.
-	saver.init(10, 20, true);
+	saver.init(2, 0, true);
     r = ofRandom(0,100);
 }
 
@@ -20,10 +20,19 @@ void testApp::update(){
 void testApp::draw(){
 	//use this is you have custom camera setup:
 
-	//saver.setCameraData(pos, eye, up);
-	//saver.setPerspectiveData(fov, aspect, zNear, zFar);
+	float r = 400;
+	//cam.begin();
 
-	saver.begin();
+	saver.setCameraData( cam.getPosition() + ofVec3f(0,0,1), cam.getPosition(), cam.getUpDir() );
+	//saver.setPerspectiveData(cam.getFov(), cam.getAspectRatio(), cam.getNearClip(), cam.getFarClip());
+
+	if(saver.bGoTiling){
+		saver.begin();
+	}else{
+		cam.begin();
+	}
+
+
 	ofSetCircleResolution(100);
 	ofNoFill();
 	ofSetColor(255,255,255,255);
@@ -38,7 +47,14 @@ void testApp::draw(){
     ofSetColor(ofRandom(0,255),ofRandom(0,255),ofRandom(0,255),150);
     ofCircle(200,250,ofRandom(50,150));
     ofDisableAlphaBlending();
-	saver.end();
+	if(saver.bGoTiling){
+		saver.end();
+	}else{
+		cam.end();
+	}
+
+	//cam.end();
+
 	ofSetColor(255,255,255,255);
 	ofDrawBitmapString("press s to save an image",20,20);
 	ofDrawBitmapString("press r to randomize",20,30);

@@ -131,8 +131,10 @@ public:
 
 	//this starts the saving Process
 	void finish(string _fileName, bool _bFlipY){
-		if(bBigImage)
-			final.init(steps, steps, tileWidthNoBorder, tileHeightNoBorder);
+		if(bBigImage){
+			bool ok = final.init(steps, steps, tileWidthNoBorder, tileHeightNoBorder);
+			if (!ok) return;
+		}
 		bGoTiling = true;
 		currentCol = 0;
 		currentRow = 0;
@@ -180,7 +182,7 @@ public:
 
 
 		//glScalef(1, -1, 1);           // invert Y axis so increasing Y goes down.
-		//glTranslatef(0, -height, 0);
+		//glTranslatef(0, -ofGetHeight(), 0);
 	}
 
 	//this is the important part, the Frustum gets setup correctly so we can tile perfectly
